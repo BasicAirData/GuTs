@@ -23,6 +23,7 @@ Right now error trapping  is not implemented
 import csv
 import sys
 from datetime import datetime, timedelta
+labelCol="date time" #Column description for date time 
 inputFile=' '  # Input GPSLogger txt file
 outputFile=' ' # Output GPSLogger txt file
 offsetHours=0  #Desired time offset
@@ -52,7 +53,7 @@ with open(inputFile, newline='') as f:
         riga=row #Modified row
         if  indexRow < 1:
             listOFColumnNames.append(row)
-            puntaData =listOFColumnNames[0].index("date time");  # number of column with date time
+            puntaData =listOFColumnNames[0].index(labelCol);  # number of column with date time
         if  indexRow == 1:  #Second line of the file
             a=int(row[puntaData][11:13]) #Extract hour value from GPSLogger file and cast to int
             b=int(inputFile[10:11]) #Extract hour value from GPSLogger file name and cast to inn
