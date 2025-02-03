@@ -31,7 +31,7 @@ offsetHours=0  #Desired time offset
 #Parse the command line arguments
 
 na=len(sys.argv)
-if na != 2:   #only 1 argument provided, display information
+if na != 2:   # Worng number of arguments provided, display information
     print('CTime util, shift times of GPSLogger txt files')
     print('Please enter GPS Logger txt file name to process')
     print('Usage: Python <Input file name>')
