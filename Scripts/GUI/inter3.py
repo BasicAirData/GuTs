@@ -52,7 +52,7 @@ nb.add(f2, text= "Stats")
 fig, ax = plt.subplots()
 # Create Canvas
 canvas = FigureCanvasTkAgg(fig, f1)
-canvas.get_tk_widget().grid(row = 2, column = 0)
+canvas.get_tk_widget().grid(row = 0, column = 0)
 # defining all 3 axis
 z = dataset[['altitude(m)']]
 x = dataset[['longitude']]
