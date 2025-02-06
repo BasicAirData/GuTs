@@ -1,6 +1,6 @@
 '''
 CTime.py change the time of GPS Logger TXT exported files to that specified into the file name
-Right now error trapping  is not implemented 
+Error trapping is primitive
  * Created by J.Larragueta on 02/02/2025
  * This file is part of BasicAirData GPS Logger Utils
  *
@@ -54,18 +54,24 @@ with open(inputFile, newline='') as f:
         if  indexRow < 1:
             listOFColumnNames.append(row)
             puntaData =listOFColumnNames[0].index(labelCol);  # number of column with date time
-        if  indexRow == 1:  #Second line of the file
+            print(puntaData)
+        if indexRow==1:   
             a=int(row[puntaData][11:13]) #Extract hour value from GPSLogger file and cast to int
             b=int(inputFile[10:11]) #Extract hour value from GPSLogger file name and cast to inn
             offsetHours=b-a
-            OldDate = datetime.strptime(row[puntaData],"%Y-%m-%d %H:%M:%S.%f")
-            NewDate = OldDate + timedelta(hours = offsetHours)
-            riga[puntaData]= NewDate.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-            print(riga[puntaData])
-        if row[0].find('T') != -1 and indexRow != 1:
-            OldDate = datetime.strptime(row[puntaData],"%Y-%m-%d %H:%M:%S")
-            NewDate = OldDate + timedelta(hours = offsetHours)
-            riga[puntaData]= NewDate.strftime("%Y-%m-%d %H:%M:%S") 
+        if row[0].find('T') != -1:
+            try:
+                OldDate = datetime.strptime(row[puntaData],"%Y-%m-%d %H:%M:%S")
+            except:
+                OldDate = datetime.strptime(row[puntaData],"%Y-%m-%d %H:%M:%S.%f")
+            finally:
+                NewDate = OldDate + timedelta(hours = offsetHours)
+            try:
+                riga[puntaData]= NewDate.strftime("%Y-%m-%d %H:%M:%S") 
+            except:
+                riga[puntaData]= NewDate.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+            finally:
+                pass
         outdata.append(riga)
         indexRow=indexRow+1
 with open(outputFile, 'w', newline='') as f:

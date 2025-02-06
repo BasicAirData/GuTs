@@ -46,24 +46,30 @@ s.map("TNotebook.Tab",foreground=[("selected", "white")], background= [("selecte
 nb = ttk.Notebook(win, style="TNotebook" )
 f1= Frame(nb,background="light gray", width= 600, height=180)
 nb.add(f1, text= 'Track')
-f2 = Frame(nb,background="light gray", width= 600, height=180)
-nb.add(f2, text= "Stats")
+
+#Track tabs
 #Figure
 fig, ax = plt.subplots()
 # Create Canvas
 canvas = FigureCanvasTkAgg(fig, f1)
 canvas.get_tk_widget().grid(row = 0, column = 0)
-# defining all 3 axis
+# defining all 3 axis, calculate basic stats
 z = dataset[['altitude(m)']]
 x = dataset[['longitude']]
 y = dataset[['latitude']]
- 
+nsamples=z.count 
 # plotting
 ax = plt.axes(projection ='3d')
 ax.plot3D(x, y, z, 'green')
 ax.set_title('Track plot')
 canvas.draw()
 
+f2 = Frame(nb,background="light gray")
+nb.add(f2, text= "Stats")
+#Stats Tab
+f2.focus
+l1=Label(f2,font=('default', 15)  ,text=dataset['longitude'].mean()).grid(row=0,column=0)
+l2=Label(f2, font=('default', 15), text=dataset['longitude'].var()).grid(row=1,column=0)
 #Header
 Header= ttk.Frame(win)
 Hlbl = Label(Header, text="GPS Logger Utils",fg='white', bg='#890000', font=("Default", 25))
