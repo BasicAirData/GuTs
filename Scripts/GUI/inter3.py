@@ -18,6 +18,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 '''
+#It is necessary to redo the skeleton in a class oriented mode
 
 # Import the required libraries
 from tkinter import *
@@ -36,6 +37,7 @@ dataset = pd.read_csv("20240825-095302 - Lago nero e rifugio segantini.txt")
 win = Tk()
 # Set the size of the tkinter window
 win.geometry("600x1066")
+win.resizable(False,False)
 win.title("GPS Logger Utils")
 #win.configure(bg='#890000')
 # Create an instance of ttk style
@@ -46,6 +48,9 @@ s.map("TNotebook.Tab",foreground=[("selected", "white")], background= [("selecte
 nb = ttk.Notebook(win, style="TNotebook" )
 f1= Frame(nb,background="light gray", width= 600, height=180)
 nb.add(f1, text= 'Track')
+
+def UpdatePlot():
+     plt.plot(1, 2, 3,marker='x' , markersize=20, markeredgecolor="green", markerfacecolor="green")
 
 #Track tabs
 #Figure
@@ -63,10 +68,13 @@ ax = plt.axes(projection ='3d')
 ax.plot3D(x, y, z, 'green')
 ax.set_title('Track plot')
 canvas.draw()
-
+#Sample control
+lf1=Label(f1,text="Start",font=('default', 15)).grid(row=1,column=0,columnspan=2)
+sf1=Scale(f1, from_=0, to=100,orient=HORIZONTAL, font=('default', 15)).grid(row=2,column=0,columnspan=2)
+UpdatePlot()
+#Stats Tab
 f2 = Frame(nb,background="light gray")
 nb.add(f2, text= "Stats")
-#Stats Tab
 f2.focus
 l1=Label(f2,font=('default', 15)  ,text=dataset['longitude'].mean()).grid(row=0,column=0)
 l2=Label(f2, font=('default', 15), text=dataset['longitude'].var()).grid(row=1,column=0)
