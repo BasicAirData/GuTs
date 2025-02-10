@@ -48,10 +48,6 @@ s.map("TNotebook.Tab",foreground=[("selected", "white")], background= [("selecte
 nb = ttk.Notebook(win, style="TNotebook" )
 f1= Frame(nb,background="light gray", width= 600, height=180)
 nb.add(f1, text= 'Track')
-
-def UpdatePlot():
-     plt.plot(1, 2, 3,marker='x' , markersize=20, markeredgecolor="green", markerfacecolor="green")
-
 #Track tabs
 #Figure
 fig, ax = plt.subplots()
@@ -71,7 +67,6 @@ canvas.draw()
 #Sample control
 lf1=Label(f1,text="Start",font=('default', 15)).grid(row=1,column=0,columnspan=2)
 sf1=Scale(f1, from_=0, to=100,orient=HORIZONTAL, font=('default', 15)).grid(row=2,column=0,columnspan=2)
-UpdatePlot()
 #Stats Tab
 f2 = Frame(nb,background="light gray")
 nb.add(f2, text= "Stats")
