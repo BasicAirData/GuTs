@@ -74,21 +74,26 @@ class GuTs: # App class
             self.label = ttk.Label(self.trackFrame, text=self.openFileName)
             self.label.pack(pady=10)
             #Figure
-            fig, ax = plt.subplots()
+            self.fig, self.ax = plt.subplots()
             # Create Canvas
-            canvas = FigureCanvasTkAgg(fig, self.trackFrame)
-            canvas.get_tk_widget().pack(fill='both')
+            self.canvas = FigureCanvasTkAgg(self.fig, self.trackFrame)
+            self.canvas.get_tk_widget().pack(fill='both')
             # defining all 3 axis, calculate basic stats
-            z = dataset[['altitude(m)']]
-            x = dataset[['longitude']]
-            y = dataset[['latitude']]
-            nsamples=z.count 
+            self.z = dataset[['altitude(m)']]
+            self.x = dataset[['longitude']]
+            self.y = dataset[['latitude']]
+            nsamples=self.z.count 
             # plotting
             ax = plt.axes(projection ='3d')
-            ax.plot3D(x, y, z, 'green')
+            ax.plot3D(self.x, self.y, self.z, 'green')
             ax.set_title('Track plot')
-            canvas.draw()
-            
+            self.canvas.draw()
+            #Initial point selection
+            self.slider1var = IntVar()
+            self.slider1 = Scale(self.trackFrame, from_=1, to=10, orient='horizontal')
+            self.slider1.pack()
+            self.slider1['variable'] = self.slider1var
+            self.slider1['command'] = self.update
         def setupStatsTab(self):
             self.statsLabel = ttk.Label(self.statsFrame, text="Statistics will be displayed here.")
             self.statsLabel.pack(pady=10)
@@ -97,6 +102,13 @@ class GuTs: # App class
             Flb1=Label(Footer, text="Load Track", font=("Default", 15))
             Flb1.grid(column=0, row=0)
             Footer.pack(padx= 5, pady=5,fill='both')
+        def update(self, event):
+            #Need conversione between panda list and numpy is needed
+            #print(self.slider1.get())
+            inda=self.slider1.get()
+            self.ax.plot(inda,inda,inda , marker='x' , markersize=200, markeredgecolor="green", markerfacecolor="red")
+            self.canvas.draw()
+ 
         def LoadTrack(self):
             self.openFileName = "GPS track 123456789 123456789"
 #Centers a windows on the screen
