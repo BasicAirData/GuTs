@@ -1,4 +1,4 @@
-# GuTS - GPS Logger Utils 
+# GuTs - GPS Logger Utils 
  
 ## Note that current release is not even in alfa! Work in progress, that is due to a conversion to Python and integration with a basic graphic interface
 
