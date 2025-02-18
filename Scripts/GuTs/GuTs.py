@@ -25,16 +25,26 @@ from matplotlib.backends.backend_tkagg import (
 FigureCanvasTkAgg)
 import numpy as np
 import pandas as pd
+#Importing custom functions
+import sys
+import os
+scriptDirectory = os.path.dirname(os.path.abspath(sys.argv[0])) 
+initialdir=scriptDirectory
+#Add the function folder to the path
+sys.path.insert(0, scriptDirectory+'/src')
+import Dialogo
+#dataset = pd.read_csv("20240825-095302 - Lago nero e rifugio segantini.txt")
 
-dataset = pd.read_csv("20240825-095302 - Lago nero e rifugio segantini.txt")
 class GuTs: # App class
         openFileName="N/A"
         def __init__(self, root):
+            #load dataset!
+
             self.root = root
             self.root.title("GuTs - GPS Logger Utils")
             self.root.geometry("600x1066")
-            center(root)
             self.root.resizable('FALSE','FALSE')
+          
             #Load data from file, attention is fixed for test purposes :-)
             self.LoadTrack()
             #Notebook
@@ -59,6 +69,7 @@ class GuTs: # App class
             #Setup grafic elements for each tab
             self.setupTrackTab()
             self.setupStatsTab()
+            center(self.root)
         def setupHeader (self):  #Setup the header
             Header= ttk.Frame(self.root)
             Hlbl = Label(Header, text="GPS Logger Utils",fg='white', bg='#890000', font=("Default", 25))
@@ -79,9 +90,9 @@ class GuTs: # App class
             self.canvas = FigureCanvasTkAgg(self.fig, self.trackFrame)
             self.canvas.get_tk_widget().pack(fill='both')
             # defining all 3 axis, calculate basic stats
-            self.z = dataset[['altitude(m)']]
-            self.x = dataset[['longitude']]
-            self.y = dataset[['latitude']]
+            self.z = Loaded.data[['altitude(m)']]
+            self.x = Loaded.data[['longitude']]
+            self.y = Loaded.data[['latitude']]
             nsamples=self.z.count 
             # plotting
             ax = plt.axes(projection ='3d')
@@ -99,18 +110,20 @@ class GuTs: # App class
             self.statsLabel.pack(pady=10)
         def setupFooter(self): #Setup footer
             Footer= ttk.Frame(self.root, width= 600, height=180)
-            Flb1=Label(Footer, text="Load Track", font=("Default", 15))
-            Flb1.grid(column=0, row=0)
+            openButton = ttk.Button(Footer,text='Open a File',command=Loaded.openFile)
+            openButton.grid(column=1, row=0)
             Footer.pack(padx= 5, pady=5,fill='both')
         def update(self, event):
-            #Need conversione between panda list and numpy is needed
+            #Need conversione between panda list and numpy
             #print(self.slider1.get())
             inda=self.slider1.get()
+            self.ax.clear()
             self.ax.plot(inda,inda,inda , marker='x' , markersize=200, markeredgecolor="green", markerfacecolor="red")
             self.canvas.draw()
  
         def LoadTrack(self):
-            self.openFileName = "GPS track 123456789 123456789"
+            self.openFileName = Loaded.filename
+            Loaded.openFile()
 #Centers a windows on the screen
 def center(window): 
         window.update_idletasks()
@@ -124,5 +137,7 @@ def center(window):
             
 if __name__ == "__main__":
     root = Tk()
+    Loaded = Dialogo.Dialogo(initialdir)
     app = GuTs(root)
+    center(root)
     root.mainloop()
