@@ -30,22 +30,17 @@ import sys
 import os
 scriptDirectory = os.path.dirname(os.path.abspath(sys.argv[0])) 
 initialdir=scriptDirectory
-#Add the function folder to the path
+#Add the folder with custom classes to the path
 sys.path.insert(0, scriptDirectory+'/src')
 import Dialogo
-#dataset = pd.read_csv("20240825-095302 - Lago nero e rifugio segantini.txt")
-
 class GuTs: # App class
         openFileName="N/A"
         def __init__(self, root):
-            #load dataset!
-
             self.root = root
             self.root.title("GuTs - GPS Logger Utils")
             self.root.geometry("600x1066")
             self.root.resizable('FALSE','FALSE')
-          
-            #Load data from file, attention is fixed for test purposes :-)
+             #Load data from file
             self.LoadTrack()
             #Notebook
             s = ttk.Style()
